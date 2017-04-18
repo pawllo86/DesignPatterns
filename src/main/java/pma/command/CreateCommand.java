@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class CreateCommand implements ICommand {
 
+    public static final String SHORTCUT = "C";
+
     private Map<Integer, Square> squares;
 
     private int number;
@@ -19,6 +21,7 @@ public class CreateCommand implements ICommand {
         this.length = length;
     }
 
+    @Override
     public void execute() {
         if (squares == null) {
             squares = new HashMap<>();
@@ -26,4 +29,10 @@ public class CreateCommand implements ICommand {
         squares.put(number, new Square(number, length));
     }
 
+    @Override
+    public void undo() {
+        if (squares != null) {
+            squares.remove(number);
+        }
+    }
 }

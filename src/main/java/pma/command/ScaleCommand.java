@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class ScaleCommand implements ICommand {
 
+    public static final String SHORTCUT = "S";
+
     private Map<Integer, Square> squares;
 
     private int number;
@@ -23,6 +25,14 @@ public class ScaleCommand implements ICommand {
         if (squares != null && squares.containsKey(number)) {
             Square square = squares.get(number);
             square.setLength(square.getLength() * factor);
+        }
+    }
+
+    @Override
+    public void undo() {
+        if (squares != null && squares.containsKey(number)) {
+            Square square = squares.get(number);
+            square.setLength(square.getLength() / factor);
         }
     }
 }

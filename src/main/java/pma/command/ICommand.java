@@ -2,6 +2,14 @@ package pma.command;
 
 public interface ICommand {
 
-    public void execute();
+    String PRINT_SHORTCUT = "P";
+
+    String UNDO_SHORTCUT = "U";
+
+    String REDO_SHORTCUT = "R";
+
+    void execute();
+
+    void undo();
 
 }

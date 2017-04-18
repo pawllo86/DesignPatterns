@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class MoveCommand implements ICommand {
 
+    public static final String SHORTCUT = "M";
+
     private Map<Integer, Square> squares;
 
     private int number;
@@ -30,4 +32,12 @@ public class MoveCommand implements ICommand {
         }
     }
 
+    @Override
+    public void undo() {
+        if (squares != null && squares.containsKey(number)) {
+            Square square = squares.get(number);
+            square.setX(square.getX() - x);
+            square.setY(square.getY() + y);
+        }
+    }
 }
