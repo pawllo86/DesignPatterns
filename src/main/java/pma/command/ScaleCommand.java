@@ -1,38 +1,30 @@
 package pma.command;
 
-import pma.bean.Square;
-
-import java.util.Map;
+import pma.receiver.SquareReceiver;
 
 public class ScaleCommand implements ICommand {
 
     public static final String SHORTCUT = "S";
 
-    private Map<Integer, Square> squares;
+    private SquareReceiver receiver;
 
     private int number;
 
     private int factor;
 
-    public ScaleCommand(Map<Integer, Square> squares, int number, int factor) {
-        this.squares = squares;
+    public ScaleCommand(SquareReceiver receiver, int number, int factor) {
+        this.receiver = receiver;
         this.number = number;
         this.factor = factor;
     }
 
     @Override
     public void execute() {
-        if (squares != null && squares.containsKey(number)) {
-            Square square = squares.get(number);
-            square.setLength(square.getLength() * factor);
-        }
+        receiver.scaleSquare(number, factor);
     }
 
     @Override
     public void undo() {
-        if (squares != null && squares.containsKey(number)) {
-            Square square = squares.get(number);
-            square.setLength(square.getLength() / factor);
-        }
+        receiver.scaleSquare(number, 1/factor);
     }
 }

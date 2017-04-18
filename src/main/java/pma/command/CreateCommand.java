@@ -1,38 +1,30 @@
 package pma.command;
 
-import pma.bean.Square;
-
-import java.util.HashMap;
-import java.util.Map;
+import pma.receiver.SquareReceiver;
 
 public class CreateCommand implements ICommand {
 
     public static final String SHORTCUT = "C";
 
-    private Map<Integer, Square> squares;
+    private SquareReceiver receiver;
 
     private int number;
 
     private int length;
 
-    public CreateCommand(Map<Integer, Square> squares, int number, int length) {
-        this.squares = squares;
+    public CreateCommand(SquareReceiver receiver, int number, int length) {
+        this.receiver = receiver;
         this.number = number;
         this.length = length;
     }
 
     @Override
     public void execute() {
-        if (squares == null) {
-            squares = new HashMap<>();
-        }
-        squares.put(number, new Square(number, length));
+        receiver.addSquare(number, length);
     }
 
     @Override
     public void undo() {
-        if (squares != null) {
-            squares.remove(number);
-        }
+        receiver.removeSquare(number);
     }
 }

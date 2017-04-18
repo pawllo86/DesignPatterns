@@ -1,14 +1,12 @@
 package pma.command;
 
-import pma.bean.Square;
-
-import java.util.Map;
+import pma.receiver.SquareReceiver;
 
 public class MoveCommand implements ICommand {
 
     public static final String SHORTCUT = "M";
 
-    private Map<Integer, Square> squares;
+    private SquareReceiver receiver;
 
     private int number;
 
@@ -16,8 +14,8 @@ public class MoveCommand implements ICommand {
 
     private int y;
 
-    public MoveCommand(Map<Integer, Square> squares, int number, int x, int y) {
-        this.squares = squares;
+    public MoveCommand(SquareReceiver receiver, int number, int x, int y) {
+        this.receiver = receiver;
         this.number = number;
         this.x = x;
         this.y = y;
@@ -25,19 +23,11 @@ public class MoveCommand implements ICommand {
 
     @Override
     public void execute() {
-        if (squares != null && squares.containsKey(number)) {
-            Square square = squares.get(number);
-            square.setX(square.getX() + x);
-            square.setY(square.getY() - y);
-        }
+        receiver.moveSquare(number, x, y);
     }
 
     @Override
     public void undo() {
-        if (squares != null && squares.containsKey(number)) {
-            Square square = squares.get(number);
-            square.setX(square.getX() - x);
-            square.setY(square.getY() + y);
-        }
+        receiver.moveSquare(number, -x, -y);
     }
 }

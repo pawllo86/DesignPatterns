@@ -1,20 +1,20 @@
 package pma.main;
 
 
-import pma.bean.Square;
-import pma.command.*;
+import pma.command.CreateCommand;
+import pma.command.ICommand;
+import pma.command.MoveCommand;
+import pma.command.ScaleCommand;
 import pma.invoker.SquareManipulationSystem;
+import pma.receiver.SquareReceiver;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Application {
 
-    private static Map<Integer, Square> squares = new HashMap<>();
-
     public static void main(String[] args) {
         SquareManipulationSystem system = new SquareManipulationSystem();
+        SquareReceiver receiver = new SquareReceiver();
 
         try {
             Reader reader = new InputStreamReader(System.in, "UTF-8");
@@ -31,17 +31,16 @@ public class Application {
 
                 switch (commandText) {
                     case CreateCommand.SHORTCUT:
-                        command = new CreateCommand(squares, Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+                        command = new CreateCommand(receiver, Integer.parseInt(input[1]), Integer.parseInt(input[2]));
                         break;
                     case MoveCommand.SHORTCUT:
-                        command = new MoveCommand(squares, Integer.parseInt(input[1]), Integer.parseInt(input[2]), Integer.parseInt(input[3]));
+                        command = new MoveCommand(receiver, Integer.parseInt(input[1]), Integer.parseInt(input[2]), Integer.parseInt(input[3]));
                         break;
                     case ScaleCommand.SHORTCUT:
-                        command = new ScaleCommand(squares, Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+                        command = new ScaleCommand(receiver, Integer.parseInt(input[1]), Integer.parseInt(input[2]));
                         break;
                     case ICommand.PRINT_SHORTCUT:
-                        squares.forEach((number, square) ->
-                                System.out.format("Square %s: [%s, %s] - side length %s \n", number, square.getX(), square.getY(), square.getLength()));
+                        receiver.printSquares();
                         continue;
                     case ICommand.UNDO_SHORTCUT:
                         system.executeUndo();
