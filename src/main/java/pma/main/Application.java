@@ -40,7 +40,8 @@ public class Application {
                         command = new ScaleCommand(receiver, Integer.parseInt(input[1]), Integer.parseInt(input[2]));
                         break;
                     case ICommand.PRINT_SHORTCUT:
-                        receiver.printSquares();
+                        receiver.getSquares().forEach(
+                            (number, square) -> System.out.format("Square %s: [%s, %s] - side length %s \n", number, square.getX(), square.getY(), square.getLength()));
                         continue;
                     case ICommand.UNDO_SHORTCUT:
                         system.executeUndo();

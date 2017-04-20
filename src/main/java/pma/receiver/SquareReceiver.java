@@ -9,6 +9,10 @@ public class SquareReceiver {
 
     private Map<Integer, Square> squares = new HashMap<>();
 
+    public Map<Integer, Square> getSquares() {
+        return squares;
+    }
+
     public void addSquare(int number, int length) {
         squares.put(number, new Square(number, length));
     }
@@ -30,11 +34,6 @@ public class SquareReceiver {
             Square square = squares.get(number);
             square.setLength(square.getLength() * factor);
         }
-    }
-
-    public void printSquares() {
-        squares.forEach((number, square) ->
-                System.out.format("Square %s: [%s, %s] - side length %s \n", number, square.getX(), square.getY(), square.getLength()));
     }
 
 }
